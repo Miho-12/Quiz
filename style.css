@@ -1,0 +1,226 @@
+body {
+  font-size: 20px;
+  font-family: monospace;
+}
+
+#container {
+  margin: 20px auto;
+  background-color: white;
+  height: 320px;
+  width: auto;
+  border-radius: 5px;
+  box-shadow: 0px 5px 15px 0px;
+  position: relative;
+}
+#start {
+  font-size: 1.5em;
+  font-weight: bolder;
+  word-break: break-all;
+  width: 100px;
+  height: 150px;
+  border: 2px solid lightgrey;
+  text-align: center;
+  cursor: pointer;
+  position: absolute;
+  left: 300px;
+  top: 50px;
+  color: lightgrey;
+}
+#start:hover {
+  border: 3px solid lightseagreen;
+  color: lightseagreen;
+}
+
+#qImg {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+#qImg img {
+  width: 200px;
+  height: 200px;
+  border-top-left-radius: 5px;
+}
+
+#question {
+  width: 900px;
+  height: 100px;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+#question p {
+  height: 70px;
+  margin: 0;
+  padding: 15px;
+  font-size: 1.25em;
+}
+
+#choices {
+  width: 880px;
+  height: 140px;
+  position: absolute;
+  right: 0;
+  top: 125px;
+  padding: 10px;
+}
+.choice {
+  display: inline-block;
+  width: 260px;
+  height: 100px;
+  text-align: center;
+  border: 1px solid grey;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 5px;
+  word-break: break-all;
+}
+.choice:hover {
+  border: 2px solid grey;
+  font-weight: bold;
+}
+
+#timer {
+  position: absolute;
+  height: 100px;
+  width: 200px;
+  bottom: 0px;
+  text-align: center;
+}
+
+#counter {
+  font-size: 2em;
+  top: 20px;
+}
+#btimeGauge {
+  width: 150px;
+  height: 10px;
+  border-radius: 10px;
+  background-color: lightgray;
+  margin-left: 25px;
+}
+#timeGauge {
+  height: 10px;
+  border-radius: 10px;
+  background-color: mediumseagreen;
+  margin-top: -10px;
+  margin-left: 25px;
+}
+
+#progress {
+  width: 900px;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  padding: 5px;
+  text-align: right;
+}
+.prog {
+  width: 12px;
+  height: 12px;
+  border: 1px solid #000;
+  display: inline-block;
+  border-radius: 50%;
+  margin-left: 1.9px;
+  margin-right: 1.9px;
+}
+#scoreContainer {
+  margin: 20px auto;
+  background-color: white;
+  opacity: 0.8;
+  height: 300px;
+  width: 700px;
+  border-radius: 5px;
+  box-shadow: 0px 5px 15px 0px;
+  position: relative;
+  display: none;
+}
+#scoreContainer img {
+  position: absolute;
+  top: 100px;
+  left: 325px;
+}
+#scoreContainer p {
+  position: absolute;
+  display: block;
+  width: 59px;
+  height: 59px;
+  top: 130px;
+  left: 325px;
+  font-size: 1.5em;
+  font-weight: bold;
+  text-align: center;
+}
+
+#help1 {
+  font-size: 1.5em;
+  font-weight: bolder;
+  word-break: break-all;
+  width: 100px;
+  border: 2px solid lightgrey;
+  text-align: center;
+  cursor: pointer;
+  position: absolute;
+  left: 210px;
+  top: 260px;
+  color: lightgrey;
+}
+#help1:hover {
+  border: 3px solid lightseagreen;
+  color: lightseagreen;
+}
+
+#help1counterTag {
+  font-size: 0.5em;
+  border-top: 2px solid black;
+}
+
+#help2 {
+  font-size: 1.5em;
+  font-weight: bolder;
+  word-break: break-all;
+  width: 100px;
+  border: 2px solid lightgrey;
+  text-align: center;
+  cursor: pointer;
+  position: absolute;
+  left: 330px;
+  top: 260px;
+  color: lightgrey;
+}
+#help2:hover {
+  border: 3px solid lightseagreen;
+  color: lightseagreen;
+}
+
+#hintbox {
+  font-size: 1em;
+  font-weight: bolder;
+  border: 2px solid lightgrey;
+  text-align: center;
+  color: rgb(73, 211, 18);
+  width: 360px;
+  height: 200px;
+  top: 15px;
+  left: 210px;
+  position: absolute;
+}
+
+#pause {
+  font-size: 1.5em;
+  font-weight: bolder;
+  width: 120px;
+  border: 2px solid lightgrey;
+  text-align: center;
+  cursor: pointer;
+  position: absolute;
+  color: lightgrey;
+  top: 60px;
+  left: 40px;
+}
+#pause:hover {
+  border: 3px solid lightseagreen;
+  color: lightseagreen;
+}
