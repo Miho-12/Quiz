@@ -1,4 +1,4 @@
-//select all elements
+//select all required elements
 const start = document.getElementById("start");
 const quiz = document.getElementById("quiz");
 const question = document.getElementById("question");
@@ -13,6 +13,9 @@ const scoreDiv = document.getElementById("scoreContainer");
 const help1 = document.getElementById("help1");
 const help2 = document.getElementById("help2");
 const hintbox = document.getElementById("hintbox");
+const hintbox_front = document.getElementById("hintbox-front");
+const hintbox_back = document.getElementById("hintbox-back");
+const hintparent = document.getElementById("hintparent");
 var help1counterTag = document.getElementById("help1counterTag");
 const pause = document.getElementById("pause");
 
@@ -20,27 +23,7 @@ const pause = document.getElementById("pause");
 let questions = [
   {
     question:
-      "Hány db elektor volt a különbség Joe Biden javára az idei elnökválasztás végén?",
-    imgSrc: "img/vagoisti.png",
-    choiceA: "66",
-    choiceB: "58",
-    choiceC: "74",
-    correct: "C",
-    hint:
-      "nincs kedvem hinten agyalni, tessék a mo.: 74, a lényeg, hogy működik",
-  },
-  {
-    question: "Mennyit ér a mai napon(dec24) 13:21 perckor az Apple részvény?",
-    imgSrc: "img/vagoisti.png",
-    choiceA: "116,58 USD",
-    choiceB: "145,12 USD",
-    choiceC: "130,6 USD",
-    correct: "C",
-    hint: "",
-  },
-  {
-    question:
-      "Mennyi Oscar-díjat sikerült bezsebelnie a Gyűrűk Ura harmadik, egyben legsikeresebb epizódjának?",
+      "Mennyi Oscar-díjat sikerült bezsebelnie a Gyűrűk Ura </br> harmadik, egyben legsikeresebb epizódjának?",
     imgSrc: "img/vagoisti.png",
     choiceA: "11",
     choiceB: "8",
@@ -49,12 +32,70 @@ let questions = [
     hint: "5-nél fixen több",
   },
   {
+    question:
+      "Hányszor startolt el a SpaceX egyik hordozórakétájának</br> első fokozata és szállt vissza ugyanarra a helyre,</br> amivel rekordot döntött?",
+    imgSrc: "img/vagoisti.png",
+    choiceA: "3",
+    choiceB: "6",
+    choiceC: "7",
+    correct: "C",
+    hint: "prímszám",
+  },
+  {
+    question:
+      "Ki énekli a népszerű 'Nem csak a húszéveseké a világ'</br> című nótát?",
+    imgSrc: "img/vagoisti.png",
+    choiceA: "Koós János",
+    choiceB: "Poór Péter",
+    choiceC: "Aradszky László",
+    correct: "C",
+    hint: "2017-ben elhunyt :(",
+  },
+  {
+    question:
+      "Instagramon a legutóbbi Berki Krisztián szponzoráció</br> tartalma?",
+    imgSrc: "img/vagoisti.png",
+    choiceA: "Sportfogadási tipp",
+    choiceB: "Sampon",
+    choiceC: "Kocsimosó",
+    correct: "A",
+    hint: "Nem biztos, hogy a tudományos akadémiával kapcsolatos",
+  },
+  {
+    question:
+      "Mekkora sebességgel halad a Föld körüli pályán a nemzetközi</br> űrállomás kerekítve?",
+    imgSrc: "img/vagoisti.png",
+    choiceA: "27500 km/h",
+    choiceB: "8500 km/h",
+    choiceC: "16500 km/h",
+    correct: "A",
+    hint: "Koszter Marcziika vezeti",
+  },
+  {
+    question: "Milyen messze van ez az űrállomás a Föld felszín?",
+    imgSrc: "img/vagoisti.png",
+    choiceA: "103 km",
+    choiceB: "940 km",
+    choiceC: "408 km",
+    correct: "C",
+  },
+  {
     question: "Melyik városban van a legtöbb metróállomás?",
     imgSrc: "img/vagoisti.png",
     choiceA: "Tokió",
     choiceB: "Sanghaj",
     choiceC: "New York",
     correct: "C",
+    hint: "Kérj -1-et ha elakadsz",
+  },
+  {
+    question: "Budapesti metróvonalak összesített hossza?",
+    imgSrc: "img/vagoisti.png",
+    choiceA: "38,2 km",
+    choiceB: "26,3 km",
+    choiceC: "47,8 km",
+    correct: "A",
+    hint: "!Nem mindig a középső a jó választás!",
   },
   {
     question: "Legkevesebb hány nyílból lehet kiszállni dartsban 301-ről?",
@@ -63,18 +104,20 @@ let questions = [
     choiceB: "7",
     choiceC: "5",
     correct: "A",
+    hint: "3 nyílból 180, utána marad 121.",
   },
   {
-    question: "Mészáros Lőrinc vagyona a 2019-es Forbes alapján?",
+    question: "Mennyi idős Szellő István, méltán híres televíziós bemondó?",
     imgSrc: "img/vagoisti.png",
-    choiceA: "467 milliárd forint",
-    choiceB: "677 milliárd forint",
-    choiceC: "887 milliárd forint",
+    choiceA: "53",
+    choiceB: "59",
+    choiceC: "64",
     correct: "A",
+    hint: " Az ősz haj öregít",
   },
 ];
 
-//create some variables + adding value to helpcounters
+//create some variables + adding value to helpcounter
 
 const lastQuestion = questions.length - 1;
 let runningQuestion = 0;
@@ -86,12 +129,33 @@ let TIMER;
 let score = 0;
 let isRunning = true;
 let help1counter = 12;
-var helpTimeout;
-var isEnd = false;
+let helpTimeout;
+let isEnd = false;
+
+function waitTheFLip() {
+  if (runningQuestion != 0) {
+    setTimeout(function () {
+      hintbox_back.innerHTML = questions[runningQuestion].hint;
+    }, 250);
+  }
+}
 
 //render a question
 function renderQuestion() {
   let q = questions[runningQuestion];
+
+  //flip back the hint card before the new question appears
+  hintbox.classList.remove("hintflip");
+  if (runningQuestion != 0) {
+    waitTheFLip();
+    if (hintbox_back.style.display === "flex") {
+      flipTimeout();
+    }
+  } else {
+    hintbox_front.style.display = "flex";
+    hintbox_back.style.display = "none";
+    hintbox_back.innerHTML = questions[runningQuestion].hint;
+  }
 
   question.innerHTML = "<p>" + q.question + "</p>";
   qImg.innerHTML = "<img src=" + q.imgSrc + ">";
@@ -101,9 +165,8 @@ function renderQuestion() {
   choiceA.style.display = "inline-block";
   choiceB.style.display = "inline-block";
   choiceC.style.display = "inline-block";
-  hintbox.style.display = "none";
-  //ha vége van a tesztnek, de kíváncsiak a rossz, illetve jó megoldásaikra
-  //lehetne külön fv-t írni rá, megteszem amikor kozmetikázom a jövőben
+
+  //Colour change for the clickable progress circles when the quiz is finished
   if (isEnd) {
     scoreDiv.style.display = "none";
     if (q.correct == "A") {
@@ -128,6 +191,8 @@ start.addEventListener("click", startQuiz);
 
 //start quiz
 function startQuiz() {
+  var audio = new Audio("audio/joestet.mp3");
+  audio.play();
   start.style.display = "none";
   renderQuestion();
   quiz.style.display = "block";
@@ -143,13 +208,13 @@ function renderProgress() {
     progress.innerHTML += "<div class = 'prog' id=" + qIndex + "></div>";
   }
 
-  //kattinthatóvá tesszük progress baron lévő kis köröket és ha vége a tesztnek, akkor átnyargalhatunk előbbi kérdésekhez megnézni, hogy mit rontottunk el
-  //lehetne külön fv-be
+  // isEnd === true --> red and green circles are clickable and indicating the correct answer with a colour change(in renderQuestion()),
+  // so you can find out your mistakes
   var elems = document.querySelectorAll(".prog");
   for (const elem of elems) {
     elem.addEventListener("click", function (event) {
       console.log("clicked on" + elem.id + "");
-      if (lastQuestion) {
+      if (isEnd) {
         runningQuestion = elem.id;
         renderQuestion();
         runningQuestion = lastQuestion;
@@ -158,8 +223,7 @@ function renderProgress() {
   }
 }
 
-//counter render
-
+//Counter render
 function renderCounter() {
   if (isRunning === true) {
     if (count <= questionTime) {
@@ -181,7 +245,7 @@ function renderCounter() {
         runningQuestion++;
         renderQuestion();
       } else {
-        //end the quiz and show the result
+        //end the quiz then show the result
         clearInterval(TIMER);
         scoreRender();
       }
@@ -190,18 +254,23 @@ function renderCounter() {
 }
 
 //checkAnswer
-
 function checkAnswer(answer) {
   if (answer == questions[runningQuestion].correct) {
     //answer is correct
     score++;
-    //progress color to green
+    //progress circle color to green
     answerIsCorrect();
+    //play a simple audio
+    var audio = new Audio("audio/jovalasz.mp3");
+    audio.play();
   } else {
     //answer is wrong
     //progress color to red
     answerIsWrong();
+    var audio = new Audio("audio/wrong answer.mp3");
+    audio.play();
   }
+  //if the time is paused via the -1 hint, then break the pause and continue the counting of the time from 0
   StopHelpTimeOut();
   count = 0;
   if (runningQuestion < lastQuestion) {
@@ -227,9 +296,11 @@ function answerIsWrong() {
 //score render
 function scoreRender() {
   isEnd = true;
+  var audio = new Audio("audio/score_neszegyellje.mp3");
+  audio.play();
   scoreDiv.style.display = "block";
 
-  //calculate the amount of questions percent answered
+  //calculate the amount of questions answered correctly
   const scorePercent = Math.round((100 * score) / questions.length);
 
   //choose the image based on the scorePercentage
@@ -248,17 +319,17 @@ function scoreRender() {
   scoreDiv.innerHTML += "<p>" + scorePercent + "%</p>";
 }
 
-//helptimeout
+//helptimeout, if you take a hint, you have 10 seconds extra time
 function HelpTimeOut() {
   helpTimeout = setTimeout(function () {
     isRunning = true;
-  }, 3000);
+  }, 10000);
 }
 
-//stop helptimeout to secure the case when the player press an answer in the timeout
+//stop helptimeout to secure the case when the player choosing an answer in the timeout
 function StopHelpTimeOut() {
   clearTimeout(helpTimeout);
-  //otherwise isrunning keep being false
+  //otherwise isRunning keeps being false
   isRunning = true;
 }
 
@@ -266,10 +337,15 @@ function StopHelpTimeOut() {
 help1.addEventListener("click", function () {
   if (isRunning === true) {
     if (help1counter > 0) {
+      //decrease the number of hints
       help1counter--;
       help1counterTag.innerHTML = help1counter + " left";
+
+      //stop the time
       isRunning = false;
-      //egyet levonunk a szamlalobol
+
+      //randomly took one of the wrong answers away
+      //could be more elegant, and hopefully will be
       var x = Math.floor(Math.random() * 2);
       var y = runningQuestion;
       if (questions[runningQuestion].correct == "A") {
@@ -294,24 +370,27 @@ help1.addEventListener("click", function () {
         }
       }
     }
-    //wait 5 secs then run the time
+    //wait 10 secs then run the time
     HelpTimeOut();
-  } else {
-    //isRunning = true;
   }
 });
 
+function flipTimeout() {
+  setTimeout(function () {
+    if (hintbox_back.style.display === "none") {
+      hintbox_back.style.display = "flex";
+      hintbox_front.style.display = "none";
+    } else {
+      hintbox_back.style.display = "none";
+      hintbox_front.style.display = "flex";
+    }
+  }, 250);
+}
+
 //getting help2 aka hintbox
 help2.addEventListener("click", function () {
-  if (isRunning === true) {
-    isRunning = false;
-    hintbox.style.display = "block";
-    hintbox.innerHTML = "<p>" + questions[runningQuestion].hint + "</p>";
-    //wait 3 secs then go on
-    HelpTimeOut();
-  } else {
-    //isRunning = true;
-  }
+  hintbox.classList.add("hintflip");
+  flipTimeout();
 });
 
 //for emergency

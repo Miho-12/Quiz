@@ -37,8 +37,9 @@ body {
   width: 200px;
   height: 200px;
   position: absolute;
-  left: 0px;
-  top: 0px;
+  left: 3px;
+  top: 15px;
+  border: 2px solid lightgrey;
 }
 #qImg img {
   width: 200px;
@@ -53,11 +54,23 @@ body {
   right: 0;
   top: 0;
 }
-#question p {
+#question p:nth-child(1) {
   height: 70px;
   margin: 0;
   padding: 15px;
   font-size: 1.25em;
+  color: #000;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 870px;
+  animation: type 2s steps(60, end);
+}
+
+@keyframes type {
+  from {
+    width: 0;
+  }
 }
 
 #choices {
@@ -141,21 +154,25 @@ body {
   position: absolute;
   display: none;
   bottom: 40px;
-  left: 300px;
+  width: 360px;
+  height: 200px;
+  left: 210px;
+  border: 2px solid lightgrey;
+  background-color: #bbb;
 }
 
 #scoreContainer img {
   position: absolute;
-  top: 46px;
-  left: 120.5px;
+  top: 70px;
+  left: 150px;
 }
 #scoreContainer p {
   position: absolute;
   display: block;
   width: 59px;
   height: 59px;
-  top: 80px;
-  left: 122px;
+  top: 100px;
+  left: 154px;
   font-size: 1.5em;
   font-weight: bold;
   text-align: center;
@@ -202,17 +219,52 @@ body {
   color: lightseagreen;
 }
 
-#hintbox {
-  font-size: 1em;
-  font-weight: bolder;
-  border: 2px solid lightgrey;
-  text-align: center;
-  color: black;
+#hintparent {
+  position: absolute;
   width: 360px;
   height: 200px;
+  border: 2px solid lightgrey;
+  perspective: 1000px;
   top: 15px;
   left: 210px;
+}
+
+#hintbox {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.hintflip {
+  transform: rotateY(180deg);
+}
+
+#hintbox-front {
   position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #bbb;
+  color: black;
+}
+
+#hintbox-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: dodgerblue;
+  color: white;
+  transform: rotateY(180deg);
 }
 
 #pause {
